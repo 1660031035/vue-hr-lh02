@@ -136,7 +136,7 @@ export default {
         console.log(res)
         // 带命名空间的mutation
         this.$store.commit('user/setToken', res.data)
-
+        
       } catch(err) {
         console.log('登录错误')
       }
