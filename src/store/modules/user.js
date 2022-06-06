@@ -19,10 +19,6 @@ export default {
       state.userInfo =  userInfo
       console.log(userInfo)
   },
-  // 删除用户信息
-  reomveUserInfo(state) {
-    state.userInfo = {}
-  }
   },
   actions: {
     async userLogin(context, data) {
@@ -39,6 +35,11 @@ export default {
       const rsInfo = await getUserInfo(rs.data.userId)
       const obj = {...rs.data, ...rsInfo.data}
       context.commit('setUserInfo', obj)
+  },
+  logout(context) {
+    // 清空token和用户信息
+    context.commit('setToken', '')
+    context.commit('setUserInfo', {})
   },
   },
   getters: {}

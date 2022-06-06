@@ -56,11 +56,22 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      // 弹层询问，是否退出
+      this.$confirm('你确定要离开吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
+        await this.$store.dispatch('user/logout')
+        this.$router.push(`/login`)
+      }).catch(() => {
+        // 用户取消退出
+      })
+    }
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
-}
+
 </script>
 
 <style lang="scss" scoped>
