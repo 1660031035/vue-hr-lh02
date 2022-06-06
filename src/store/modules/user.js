@@ -19,7 +19,7 @@ export default {
     async userLogin(context, data) {
       // 用户登录
       const res = await login(data)
-      console.log(res.data) // 获取token
+      // console.log(res.data) // 获取token
       context.commit('setToken', res.data)
     }
   },
