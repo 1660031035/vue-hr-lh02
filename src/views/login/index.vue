@@ -58,6 +58,7 @@
 
 <script>
 import { validUserMobile } from '@/utils/validate'
+import { login } from '@/api/user'
 // 1. 表单验证
 // 1.1 手机号验证
 // 在utils/validate下定义校验规则validUserMobile函数
@@ -115,18 +116,25 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+          // 通过兜底校验
+          // 调用api
+          this.doLogin()
+          console.log('通过校验')
         } else {
+          // 校验失败
           console.log('error submit!!')
           return false
         }
       })
+    },
+    async  doLogin() {
+      try {
+        // 通过表单校验
+        const res = await login(this.loginForm)
+        console.log(res)
+      } catch {
+        err => err
+      }
     }
   }
 }
