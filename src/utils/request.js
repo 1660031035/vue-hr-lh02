@@ -1,5 +1,6 @@
 import axios from 'axios'
-
+// 导入store
+import store from '@/store'
 // 创建一个新的axios实例 设置基地址和超时时间
 const service = axios.create({
   // 基地址
@@ -11,6 +12,14 @@ const service = axios.create({
 
 service.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
+  // 设置统一的请求头
+  // 获取token 
+  console.log(store)
+  const token = store.state.user.token
+  // 如果有token就加在请求头上
+  if(token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
   return config;
 }, function (error) {
   // 对请求错误做些什么

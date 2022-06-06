@@ -9,8 +9,12 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
-
+// 封装请求用户登录信息的函数
+export function getUserProfile(token) {
+  return request({
+    url: '/api/sys/profile',
+    method: 'post'
+  })
 }
 
 export function logout() {
