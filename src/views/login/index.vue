@@ -9,15 +9,15 @@
         </h3>
       </div>
 
-      <el-form-item prop="moblie">
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
+          ref="mobile"
           v-model="loginForm.mobile"
           placeholder="请输入手机号"
-          name="username"
+          name="mobile"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -73,13 +73,6 @@ export default {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('请输入6-15位的密码'))
-      } else {
-        callback()
-      }
-    }
     return {
       // 修改对应的属性名
       loginForm: {
@@ -91,7 +84,9 @@ export default {
           { required: true, trigger: 'blur', message: '手机号不能为空' },
           { trigger: 'blur', validator: validateUserMobile }
           ],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [
+          { required: true, trigger: 'blur', message: '密码不能为空' },
+          { min: 6, max: 15, trigger: 'blur', message: '请输入6-15位的密码' }]
       },
       loading: false,
       passwordType: 'password',
