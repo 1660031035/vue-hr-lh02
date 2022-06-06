@@ -19,7 +19,8 @@ const whiteList = ['/login', '/404']
       // 没有就获取,有就不用获取
       if(!store.getters.userId) {
         // 1. 获取个人信息
-      await store.dispatch('user/getUserInfo')
+        console.log('请求个人信息')
+        await store.dispatch('user/getUserInfo')
       
       }
       next()
