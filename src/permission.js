@@ -5,7 +5,7 @@ import store from '@/store'
 
 // 白名单数组
 const whiteList = ['/login', '/404']
-  router.beforeEach((to, from, next) => {
+  router.beforeEach(async(to, from, next) => {
   NProgress.start()
   const token = store.state.user.token
   if (token) {
@@ -16,7 +16,7 @@ const whiteList = ['/login', '/404']
       NProgress.done()
     } else {
       // 1. 获取个人信息
-      store.dispatch('user/getUserInfo')
+      await store.dispatch('user/getUserInfo')
       next()
     }
   } else {
