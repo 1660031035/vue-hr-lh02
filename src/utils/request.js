@@ -3,7 +3,7 @@ import axios from 'axios'
 // 创建一个新的axios实例 设置基地址和超时时间
 const service = axios.create({
   // 基地址
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: 'http://ihrm-java.itheima.net', // 设置基地址
   // 超时等待时间
   timeout: 5000
 })
