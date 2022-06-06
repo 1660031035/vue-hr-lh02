@@ -1,50 +1,38 @@
-// 设置路由导航守卫
-// to: 要去那个页面
-// from: 来自那个页面
-// next: 它是一个函数
-// 直接放行 next()
-// 跳到其他页 next('页面路径')
-import router from "./router"
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
+import router from './router'
 import store from '@/store'
-// 导入路由导航守卫跳转进度条
-import Nprogress from "nprogress"
-import 'nprogress/nprogress.css' 
-// 两个API
-// Nprogress.start() 启动进度条
-// Nprogress.done() 进度条结束
-// 设置白名单
+
+// 白名单数组
 const whiteList = ['/login', '/404']
-router.beforeEach((to, from, next) =>  {
-  // 启动进度条
-  Nprogress.start()
-  // console.log(to, from, '去哪里以及来自哪里')
+  router.beforeEach((to, from, next) => {
+  NProgress.start()
   const token = store.state.user.token
-  console.log(token,'路由导航')
-  // next()
-  // 判断是否有token
-  if(token) {
-    // 判断是否去登录页
-    if(whiteList.includes(to.path)) {
-      // 回到主页
+  if (token) {
+    if (to.path === '/login') {
+      // 有token，还去登录 ---> 直接去主页
+      console.log('有token，还去登录 ---> 直接去主页')
       next('/')
-      Nprogress.done()
+      NProgress.done()
     } else {
+      // 1. 获取个人信息
+      store.dispatch('user/getUserInfo')
       next()
     }
   } else {
-    // 没有token
-    // 是否去白名单
-    if(whiteList.includes(to.path)) {
-      // 放行
+    // 没有token，只能访问白名单
+    if (whiteList.includes(to.path)) {
       next()
-      
-    }else {
+    } else {
+      console.log('没有token，只能访问白名单')
       next('/login')
-      Nprogress.done()
+      NProgress.done()
     }
+    // whiteList.includes(to.path) ? next() : next('/login')
   }
+  console.log(token, '路由跳转', from.path, '----->', to.path)
 })
 
 router.afterEach(() => {
-  Nprogress.done()
+  NProgress.done()
 })

@@ -10,7 +10,7 @@ export function login(data) {
 }
 
 // 封装请求用户登录信息的函数
-export function getUserProfile() {
+export function getProfile() {
   return request({
     url: '/api/sys/profile',
     method: 'post'
