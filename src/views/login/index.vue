@@ -132,11 +132,10 @@ export default {
     async  doLogin() {
       try {
         // 通过表单校验
-        const res = await login(this.loginForm)
-        console.log(res)
-        // 带命名空间的mutation
-        this.$store.commit('user/setToken', res.data)
-        
+        this.$store.dispatch('user/userLogin', this.loginForm)
+        // 跳转到主页
+        this.$router.push('/')
+
       } catch(err) {
         console.log('登录错误')
       }
