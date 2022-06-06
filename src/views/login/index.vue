@@ -131,8 +131,8 @@ export default {
     },
     async  doLogin() {
       try {
-        // 通过表单校验
-        this.$store.dispatch('user/userLogin', this.loginForm)
+        // 通过表单校验 dispatch是异步的,需要加await
+        await this.$store.dispatch('user/userLogin', this.loginForm)
         // 跳转到主页
         this.$router.push('/')
 
