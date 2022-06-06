@@ -8,10 +8,42 @@ const service = axios.create({
   timeout: 5000
 })
 
-// request interceptor 请求拦截器
-
+service.interceptors.request.use(function (config) {
+  // 在发送请求之前做些什么
+  return config;
+}, function (error) {
+  // 对请求错误做些什么
+  return Promise.reject(error);
+});
 
 // response interceptor 响应拦截器
+// request interceptor 请求拦截器
+// 添加请求拦截器
+// 对于以下情况axios会主动抛出错误
+// 1. 如果本次请求得到的响应状态码不是2开头的
+// 2. 如果本粗请求出现网络错误
+// 但是当我们提供错误的用户名和密码的时候,没有触发上面两个错误
+// 此时axios不会主动报错 就需要添加响应拦截器
+// 添加响应拦截器
+service.interceptors.response.use(response => {
+  // 2xx 范围内的状态码都会触发该函数。
+  // 对响应数据做点什么
+  // 如果response.data.success返回true就代表操作成功
+  if(response.data.success) {
+    // 操作成功
+    return response.data
+  } else {
+    // 如果success为false,拦截器抛出错误
+    console.log('操作失败')
+    return Promise.reject(new Error('请求错误'))
+  }
+}, error => {
+  // 超出 2xx 范围的状态码都会触发该函数。
+  // 对响应错误做点什么
+  return Promise.reject(error);
+});
+
+
 
 // 导出axios实例
 export default service

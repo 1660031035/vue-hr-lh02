@@ -132,8 +132,8 @@ export default {
         // 通过表单校验
         const res = await login(this.loginForm)
         console.log(res)
-      } catch {
-        err => err
+      } catch(err) {
+        console.log('登录错误')
       }
     }
   }
