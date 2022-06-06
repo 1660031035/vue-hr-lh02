@@ -64,6 +64,8 @@ import { login } from '@/api/user'
 // 在utils/validate下定义校验规则validUserMobile函数
 // 使用自定义校验函数, 错误就返回错误信息, 正确就直接callback()
 // 在校验规则中使用 validator: 自定义校验函数名进行校验
+
+// 2. 处理token 在组件中定义函数 --> 在mutation中修改 --> 保存到state中 --> 统一设置请求头
 export default {
   name: 'Login',
   data() {
@@ -132,6 +134,9 @@ export default {
         // 通过表单校验
         const res = await login(this.loginForm)
         console.log(res)
+        // 带命名空间的mutation
+        this.$store.commit('user/setToken', res.data)
+
       } catch(err) {
         console.log('登录错误')
       }

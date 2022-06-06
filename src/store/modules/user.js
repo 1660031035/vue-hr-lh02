@@ -1,7 +1,13 @@
 export default {
   namespaced: true,
-  state: {},
-  mutations: {},
+  state: {
+    token: ''
+  },
+  mutations: {
+    setToken(state, newToken) {
+      state.token = newToken
+    }
+  },
   actions: {},
   getters: {}
 }
