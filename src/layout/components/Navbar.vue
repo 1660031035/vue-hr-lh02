@@ -63,7 +63,9 @@ export default {
         type: 'warning'
       }).then(async() => {
         await this.$store.dispatch('user/logout')
-        this.$router.push(`/login`)
+        // this.$route.path只有路径的信息
+        // this.$route.fullPath：路径+查询参数的信息
++       this.$router.push('/login?return_url=' + encodeURIComponent(this.$route.fullPath))
       }).catch(() => {
         // 用户取消退出
       })

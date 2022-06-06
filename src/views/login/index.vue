@@ -134,7 +134,7 @@ export default {
         // 通过表单校验 dispatch是异步的,需要加await
         await this.$store.dispatch('user/userLogin', this.loginForm)
         // 跳转到主页
-        this.$router.push('/')
+        this.$router.push(this.$route.query.return_url || '/')
 
       } catch(err) {
         console.log('登录错误')
