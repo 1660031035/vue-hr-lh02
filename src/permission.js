@@ -6,6 +6,8 @@
 // 跳到其他页 next('页面路径')
 import router from "./router"
 import store from '@/store'
+// 设置白名单
+const whiteList = ['/login', '/404']
 router.beforeEach((to, from, next) =>  {
   // console.log(to, from, '去哪里以及来自哪里')
   const token = store.state.user.token
@@ -14,7 +16,7 @@ router.beforeEach((to, from, next) =>  {
   // 判断是否有token
   if(token) {
     // 判断是否去登录页
-    if(to.path === '/login') {
+    if(whiteList.includes(to.path)) {
       // 回到主页
       next('/')
     } else {
@@ -23,7 +25,7 @@ router.beforeEach((to, from, next) =>  {
   } else {
     // 没有token
     // 是否去白名单
-    if(to.path === '/login') {
+    if(whiteList.includes(to.path)) {
       // 放行
       next()
     }else {
