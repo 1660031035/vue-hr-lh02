@@ -17,9 +17,7 @@ const whiteList = ['/login', '/404']
     } else {
       // 判断是否有userId再去发请求
       // 没有就获取,有就不用获取
-      if(!store.getters.userId) {
         // 1. 获取个人信息
-        
         const userInfo = store.state.user.userInfo
         if(!userInfo.userId) {
           // 如果没有就获取
@@ -27,10 +25,7 @@ const whiteList = ['/login', '/404']
           await store.dispatch('user/getUserInfo')
         }
         next()
-      
       }
-      next()
-    }
   } else {
     // 没有token，只能访问白名单
     if (whiteList.includes(to.path)) {
