@@ -18,13 +18,13 @@ import socialRouter from './modules/social_securitys'
 // 静态路由表：不需要做权限控制的路由，每个用户都可以正常访问。 
 // 动态路由表：需要做权限控制的路由，用户如果权限不一致访问到的路由也不一样。 
 export const asyncRoutes = [
-  approvalsRouter,
   departmentsRouter,
+  settingRouter,
   employeesRouter,
   permissionRouter,
+  approvalsRouter,
   attendancesRouter,
   salarysRouter,
-  settingRouter,
   socialRouter
 ]
 
