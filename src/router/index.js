@@ -30,6 +30,9 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
+// 静态路由表：不需要做权限控制的路由，每个用户都可以正常访问。 
+// 动态路由表：需要做权限控制的路由，用户如果权限不一致访问到的路由也不一样。 
 export const constantRoutes = [
   {
     path: '/login',
