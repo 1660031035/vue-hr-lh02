@@ -2,10 +2,11 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import router from './router'
 import store from '@/store'
-
+// 引入工具方法
+import getPageTitle from '@/utils/get-page-title'
 // 白名单数组
 const whiteList = ['/login', '/404']
-  router.beforeEach(async(to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   NProgress.start()
   const token = store.state.user.token
   if (token) {
@@ -38,6 +39,14 @@ const whiteList = ['/login', '/404']
     // whiteList.includes(to.path) ? next() : next('/login')
   }
   // console.log(token, '路由跳转', from.path, '----->', to.path)
+})
+
+// 可以创建多个路由守卫
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  // 调用getPageTitle()方法
+  document.title = getPageTitle(to.meta.title)
+  next()
 })
 
 router.afterEach(() => {
