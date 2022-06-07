@@ -25,7 +25,30 @@
               </el-row>
             </el-col>
           </el-row>
-      </el-card>   
+      </el-card>  
+      <!-- 放置一个el-tree组件 -->
+        <el-tree :data="list"/>
+
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      // 依赖一份树形数据
+      list: [{
+        label: '财务部',
+        children: [
+          {
+            label: '财务核算部'
+          },
+          {
+            label: '税务核算部'
+          }
+        ]
+      }]
+    }
+  }
+}
+</script>
