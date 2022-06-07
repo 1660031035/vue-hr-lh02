@@ -27,7 +27,7 @@
           </el-row>
       </el-card>  
       <!-- 放置一个el-tree组件 -->
-        <el-tree :data="list"/>
+        <el-tree :data="list" default-expand-all/>
 
     </div>
   </div>
