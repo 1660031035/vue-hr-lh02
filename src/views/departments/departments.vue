@@ -47,7 +47,7 @@
                 <el-dropdown>
                   <span> 操作<i class="el-icon-arrow-down" /> </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="showDialog=true">添加子部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="hAdd(data.id)">添加子部门</el-dropdown-item>
                     <el-dropdown-item>编辑部门</el-dropdown-item>
                     <el-dropdown-item>删除部门</el-dropdown-item>
                   </el-dropdown-menu>
@@ -63,7 +63,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         >
-        <DeptDialog/>
+        <DeptDialog @success="hSuccess" :pid="curId"/>
         </el-dialog>
       </el-card>  
       
@@ -80,6 +80,7 @@ export default {
   data() {
     // 注册
       return {
+        curId: '',
         // 显示隐藏弹框
         showDialog: false,
         data: [],
@@ -99,6 +100,19 @@ export default {
       console.log(res)
       // 调用提前封装好的根据函数来做格式转换
       this.data = toTreeList(res.data.depts)
+    },
+    // 收到父组件的hSuccess事件
+    hSuccess() {
+      // 关闭弹层
+      this.showDialog = false
+      // 重新获取列表
+      this.loadDepartments()
+    },
+    hAdd(id) {
+      // 显示弹层
+      this.showDialog = true
+      // 更新当前点击的id
+      this.curId = id
     }
   }
 }

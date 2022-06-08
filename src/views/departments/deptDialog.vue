@@ -23,7 +23,15 @@
 <script>
 // 员工简单列表
 import { getEmployee } from '@/api/employees'
+import { addDepartments } from '@/api/departments.js'
 export default {
+    props: {
+      // 接收父组件传递过来的参数
+      pid: {
+        type: String,
+        required: true
+      }
+    },
     data() {
     return {
       list: [],
@@ -43,6 +51,18 @@ export default {
       const res = await getEmployee()
       console.log(res, '简单列表')
       this.list = res.data
+    },
+    async doAdd() {
+      // 组装参数
+      const d = {...this.form, pid: this.pid}
+      await addDepartments(d)
+      // 通知父组件: 关闭弹框,再次更新数据
+      this.$emit('success')
+    },
+    hSubmit() {
+      // 表单校验
+      // 调用函数
+      this.doAdd()
     }
   }
 }
