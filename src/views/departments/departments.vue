@@ -47,7 +47,7 @@
                 <el-dropdown>
                   <span> 操作<i class="el-icon-arrow-down" /> </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>添加子部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="showDialog=true">添加子部门</el-dropdown-item>
                     <el-dropdown-item>编辑部门</el-dropdown-item>
                     <el-dropdown-item>删除部门</el-dropdown-item>
                   </el-dropdown-menu>
@@ -58,6 +58,9 @@
         </el-row>
       </template>
         </el-tree>
+        <el-dialog title="添加或者编辑" :visible.sync='showDialog'>
+        <DeptDialog/>
+        </el-dialog>
       </el-card>  
       
     </div>
@@ -65,10 +68,16 @@
 </template>
 <script>
 import { getDepartments } from '@/api/departments'
-import { tranListToTreeData } from '@/utils'
+import { toTreeList } from '@/utils'
+// 引入弹框组件
+import DeptDialog from './deptDialog.vue'
 export default {
+  components: { DeptDialog },
   data() {
+    // 注册
       return {
+        // 显示隐藏弹框
+        showDialog: false,
         data: [],
         defaultProps: {
           children: 'children',
@@ -85,7 +94,7 @@ export default {
       res.data.depts.shift()
       console.log(res)
       // 调用提前封装好的根据函数来做格式转换
-      this.data = tranListToTreeData(res.data.depts)
+      this.data = toTreeList(res.data.depts)
     }
   }
 }
