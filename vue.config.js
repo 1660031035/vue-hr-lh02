@@ -41,7 +41,7 @@ module.exports = {
     // 如果请求地址以/api打头,就出触发代理机制
     // http://localhost:9528/api/login -> http://localhost:3000/api/login
       '/api': {
-      target: 'http://192.168.71.28:3000' // 
+      target: 'http://ihrm-java.itheima.net' // 
     }
   }
   },

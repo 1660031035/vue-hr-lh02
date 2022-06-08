@@ -1,4 +1,5 @@
-<el-form ref="deptForm" label-width="120px">
+<template>
+  <el-form ref="deptForm" label-width="120px">
     <el-form-item label="部门名称">
       <el-input v-model="form.name" style="width:80%" placeholder="1-50个字符" />
     </el-form-item>
@@ -18,3 +19,18 @@
       <el-button size="small" @click="hCancel">取消</el-button>
     </el-form-item>
   </el-form>
+</template>
+<script>
+export default {
+    data() {
+    return {
+      form: {
+        name: '', // 部门名称
+        code: '', // 部门编码
+        manager: '', // 部门管理者
+        introduce: '' // 部门介绍
+      }
+    }
+  }
+}
+</script>
