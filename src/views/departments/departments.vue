@@ -58,7 +58,11 @@
         </el-row>
       </template>
         </el-tree>
-        <el-dialog title="添加或者编辑" :visible.sync='showDialog'>
+        <el-dialog title="添加或者编辑" 
+        :visible.sync='showDialog'
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        >
         <DeptDialog/>
         </el-dialog>
       </el-card>  
