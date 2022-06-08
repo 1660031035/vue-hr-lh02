@@ -58,12 +58,12 @@
         </el-row>
       </template>
         </el-tree>
-        <el-dialog title="添加或者编辑" 
+        <el-dialog :title="(isEdit ? '编辑' : '添加') + '部门'" 
         :visible.sync='showDialog'
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         >
-        <DeptDialog @success="hSuccess" :isEdit="isEdit" :pid="curId"/>
+        <DeptDialog v-if="showDialog" @success="hSuccess" :isEdit="isEdit" :pid="curId"/>
         </el-dialog>
       </el-card>  
       

@@ -71,12 +71,13 @@ export default {
     async loadDepartDetail() {
       // 如果是编辑状态
       if(this.isEdit) {
-      const res = await getDepartDetail()
+      const res = await getDepartDetail(this.pid)
       this.form = res.data
       }
     },
-    async doEdit() {
-      await updateDepartments(this.form)
+    doEdit() {
+      updateDepartments(this.form)
+      this.$emit('success')
     },
     hSubmit() {
       // 表单校验
