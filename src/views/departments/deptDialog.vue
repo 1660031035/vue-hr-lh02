@@ -23,10 +23,14 @@
 <script>
 // 员工简单列表
 import { getEmployee } from '@/api/employees'
-import { addDepartments } from '@/api/departments.js'
+import { addDepartments, getDepartDetail, updateDepartments } from '@/api/departments.js'
 export default {
     props: {
       // 接收父组件传递过来的参数
+      isEdit: {
+        type: Boolean,
+        required: true
+      },
       pid: {
         type: String,
         required: true
@@ -45,6 +49,10 @@ export default {
   },
   created() {
     this.LoadEmployee()
+    if(this.isEdit) {
+      // 如果是编辑状态才调用
+      this.loadDepartDetail()
+    }
   },
   methods: {
     async LoadEmployee() {
@@ -59,10 +67,21 @@ export default {
       // 通知父组件: 关闭弹框,再次更新数据
       this.$emit('success')
     },
+    // 获取部门详情
+    async loadDepartDetail() {
+      // 如果是编辑状态
+      if(this.isEdit) {
+      const res = await getDepartDetail()
+      this.form = res.data
+      }
+    },
+    async doEdit() {
+      await updateDepartments(this.form)
+    },
     hSubmit() {
       // 表单校验
       // 调用函数
-      this.doAdd()
+      this.isEdit ? this.doEdit() : this.doAdd()
     }
   }
 }

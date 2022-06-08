@@ -6,7 +6,7 @@ const service = axios.create({
   // 基地址
   // baseURL: 'http://ihrm-java.itheima.net', // 设置基地址
   // baseURL: process.env.VUE_APP_BASE_API, // 使用环境变量
-  baseURL: 'http://localhost:9528',
+  baseURL: 'http://localhost:8080',
   // 超时等待时间
   timeout: 5000
 })

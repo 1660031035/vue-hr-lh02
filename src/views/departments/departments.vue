@@ -48,7 +48,7 @@
                   <span> 操作<i class="el-icon-arrow-down" /> </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="hAdd(data.id)">添加子部门</el-dropdown-item>
-                    <el-dropdown-item>编辑部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="hEdit(data.id)">编辑部门</el-dropdown-item>
                     <el-dropdown-item>删除部门</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
@@ -63,7 +63,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         >
-        <DeptDialog @success="hSuccess" :pid="curId"/>
+        <DeptDialog @success="hSuccess" :isEdit="isEdit" :pid="curId"/>
         </el-dialog>
       </el-card>  
       
@@ -80,6 +80,8 @@ export default {
   data() {
     // 注册
       return {
+        // 检测是否处于编辑状态
+        isEdit: false,
         curId: '',
         // 显示隐藏弹框
         showDialog: false,
@@ -112,6 +114,16 @@ export default {
       // 显示弹层
       this.showDialog = true
       // 更新当前点击的id
+      this.curId = id
+      // 2. isEdit变为false
+      this.isEdit = false
+    },
+    hEdit(id) {
+      // 1. 显示弹层
+      this.showDialog = true
+      // 2. isEdit变为true
+      this.isEdit = true
+      // 3. 更新当前点击的id
       this.curId = id
     }
   }
