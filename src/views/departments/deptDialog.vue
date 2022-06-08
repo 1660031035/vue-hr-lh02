@@ -8,7 +8,7 @@
     </el-form-item>
     <el-form-item label="部门负责人">
       <el-select v-model="form.manager" style="width:80%" placeholder="请选择">
-        <el-option value="1" :label="小美丽" />
+        <el-option v-for="item in list" :key="item.id" :label="item.username" :value="item.username"/>
       </el-select>
     </el-form-item>
     <el-form-item label="部门介绍">
@@ -21,15 +21,28 @@
   </el-form>
 </template>
 <script>
+// 员工简单列表
+import { getEmployee } from '@/api/employees'
 export default {
     data() {
     return {
+      list: [],
       form: {
         name: '', // 部门名称
         code: '', // 部门编码
         manager: '', // 部门管理者
         introduce: '' // 部门介绍
       }
+    }
+  },
+  created() {
+    this.LoadEmployee()
+  },
+  methods: {
+    async LoadEmployee() {
+      const res = await getEmployee()
+      console.log(res, '简单列表')
+      this.list = res.data
     }
   }
 }
