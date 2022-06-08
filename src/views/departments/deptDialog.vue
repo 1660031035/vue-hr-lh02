@@ -69,11 +69,8 @@ export default {
     },
     // 获取部门详情
     async loadDepartDetail() {
-      // 如果是编辑状态
-      if(this.isEdit) {
       const res = await getDepartDetail(this.pid)
       this.form = res.data
-      }
     },
     doEdit() {
       updateDepartments(this.form)
