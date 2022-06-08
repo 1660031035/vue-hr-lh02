@@ -1,5 +1,20 @@
-<template>
-  <div>
-    这是一个弹框，稍后会新增表单
-  </div>
-</template>
+<el-form ref="deptForm" label-width="120px">
+    <el-form-item label="部门名称">
+      <el-input v-model="form.name" style="width:80%" placeholder="1-50个字符" />
+    </el-form-item>
+    <el-form-item label="部门编码">
+      <el-input v-model="form.code" style="width:80%" placeholder="1-50个字符" />
+    </el-form-item>
+    <el-form-item label="部门负责人">
+      <el-select v-model="form.manager" style="width:80%" placeholder="请选择">
+        <el-option value="1" :label="小美丽" />
+      </el-select>
+    </el-form-item>
+    <el-form-item label="部门介绍">
+      <el-input v-model="form.introduce" style="width:80%" placeholder="1-300个字符" type="textarea" :rows="3" />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" size="small" @click="hSubmit">确定</el-button>
+      <el-button size="small" @click="hCancel">取消</el-button>
+    </el-form-item>
+  </el-form>
