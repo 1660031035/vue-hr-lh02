@@ -16,7 +16,7 @@
     </el-form-item>
     <el-form-item>
       <el-button type="primary" size="small" @click="hSubmit">确定</el-button>
-      <el-button size="small" @click="hCancel">取消</el-button>
+      <el-button size="small" @click="$emit('hCancel')">取消</el-button>
     </el-form-item>
   </el-form>
 </template>

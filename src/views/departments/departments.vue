@@ -103,6 +103,10 @@ export default {
       // 调用提前封装好的根据函数来做格式转换
       this.data = toTreeList(res.data.depts)
     },
+    // 点击取消关闭弹层
+    hCancel() {
+      this.showDialog = false
+    },
     // 收到父组件的hSuccess事件
     hSuccess() {
       // 关闭弹层
