@@ -49,7 +49,7 @@
                       <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="hAdd(data.id)">添加子部门</el-dropdown-item>
                         <el-dropdown-item @click.native="hEdit(data.id)">编辑部门</el-dropdown-item>
-                        <el-dropdown-item>删除部门</el-dropdown-item>
+                        <el-dropdown-item @click.native="hDel(data.id)">删除部门</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </el-col>
@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import { getDepartments } from '@/api/departments'
+import { getDepartments, delDepartment } from '@/api/departments'
 import { toTreeList } from '@/utils'
 // 引入弹框组件
 import DeptDialog from './deptDialog.vue'
@@ -98,6 +98,25 @@ export default {
     this.loadDepartments()
   },
   methods: {
+    async doDel(id) {
+      await delDepartment(id)
+      // 刷新列表
+      this.loadDepartments()
+      // 删除成功提示
+      this.$message.success('删除成功')
+    },
+    // 删除部门
+    hDel(id) {
+      // 添加询问框
+      this.$confirm('此操作将永久删除部门，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 删除
+        this.doDel(id)
+      }).catch(() => {})
+    },
     async loadDepartments() {
       const res = await getDepartments()
       res.data.depts.shift()

@@ -48,3 +48,11 @@ export function updateDepartments(data) {
     data
   })
 }
+
+// 删除部门接口
+export function delDepartment(id) {
+  return request({
+    url: `/api/company/department/${id}`,
+    method: 'delete'
+  })
+}
