@@ -1,10 +1,66 @@
 <template>
-  <div class="setting-container">
+  <div class="dashboard-container">
     <div class="app-container">
       <el-card>
-        <!-- 具体页面结构 -->
-        公司设置
+        <el-tabs>
+          <!-- 放置页签 -->
+          <el-tab-pane label="角色管理">
+            <!-- 新增角色按钮 -->
+            <el-row style="height:60px">
+              <el-button
+                icon="el-icon-plus"
+                size="small"
+                type="primary"
+              >新增角色</el-button>
+            </el-row>
+            <!-- 表格 -->
+            <el-table :data="roles">
+              <el-table-column type="index" label="序号" width="120" />
+              <el-table-column prop="name" label="角色名称" width="240" />
+              <el-table-column prop="description" label="描述" />
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="primary">编辑</el-button>
+                  <el-button size="small" type="danger">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <el-row type="flex" justify="center" align="middle" style="height: 60px">
+              <!-- 分页组件 -->
+              <el-pagination layout="prev,pager,next" />
+            </el-row>
+          </el-tab-pane>
+        </el-tabs>
       </el-card>
     </div>
   </div>
 </template>
+<script>
+// 导入获取所有角色信息接口
+import { getRoles } from '@/api/setting'
+export default {
+  data() {
+    return {
+      roles: [], // 传入表单的数据
+      total: 0 // 数据总条数
+    }
+  },
+  created() {
+    this.loadRole()
+  },
+  methods: {
+    async loadRole() {
+      try {
+        const res = await getRoles({ page: 1, pagesize: 10 })
+        console.log(res)
+        this.total = res.data.total
+        this.roles = res.data.rows
+      } catch (error) {
+        this.$message.error(error)
+      }
+    }
+  }
+}
+</script>
