@@ -11,6 +11,7 @@
                 icon="el-icon-plus"
                 size="small"
                 type="primary"
+                @click="showDialog = true"
               >新增角色</el-button>
             </el-row>
             <!-- 表格 -->
@@ -49,6 +50,29 @@
           </el-tab-pane>
         </el-tabs>
       </el-card>
+      <!-- 新增弹框 -->
+      <el-dialog
+        title="编辑弹层"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :visible.sync="showDialog"
+      >
+        <el-form ref="roleForm" :model="roleForm" :rules="rules" label-width="100px">
+          <el-form-item label="角色名称" prop="name">
+            <el-input v-model="roleForm.name" />
+          </el-form-item>
+          <el-form-item label="角色描述">
+            <el-input v-model="roleForm.description" />
+          </el-form-item>
+        </el-form>
+        <!-- 底部 -->
+        <el-row slot="footer" type="flex" justify="center">
+          <el-col :span="6">
+            <el-button size="small">取消</el-button>
+            <el-button size="small" type="primary" @click="hSubmit">确定</el-button>
+          </el-col>
+        </el-row>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -61,7 +85,15 @@ export default {
       roles: [], // 传入表单的数据
       total: 0, // 数据总条数
       page: 1, // 当前页码
-      pagesize: 2 // 每页条数
+      pagesize: 2, // 每页条数
+      showDialog: false, // 弹框显示隐藏
+      roleForm: {
+        name: '',
+        description: ''
+      },
+      rules: {
+        name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }]
+      }
     }
   },
   created() {
