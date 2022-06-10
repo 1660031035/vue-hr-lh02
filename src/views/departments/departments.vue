@@ -28,7 +28,7 @@
         <!-- 放置一个el-tree组件 -->
         <!-- default-expand-all 默认展开 -->
         <el-tree default-expand-all :data="data" :props="defaultProps">
-          <template slot-scope="{ dataD }" class="custom-tree-node">
+          <template slot-scope="{ data }" class="custom-tree-node">
             <el-row
               type="flex"
               justify="space-between"
@@ -36,19 +36,19 @@
               style="height: 40px; width: 100%;"
             >
               <el-col :span="20">
-                <svg-icon icon-class="home" /><span>{{ dataD.name }}</span>
+                <svg-icon icon-class="home" /><span>{{ data.name }}</span>
               </el-col>
               <el-col :span="4">
                 <el-row type="flex" justify="end">
                   <!-- 两个内容 -->
-                  <el-col>{{ dataD.manager }}</el-col>
+                  <el-col>{{ data.manager }}</el-col>
                   <!-- 下拉菜单 element -->
                   <el-col>
                     <el-dropdown>
                       <span> 操作<i class="el-icon-arrow-down" /> </span>
                       <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item @click.native="hAdd(dataD.id)">添加子部门</el-dropdown-item>
-                        <el-dropdown-item @click.native="hEdit(dataD.id)">编辑部门</el-dropdown-item>
+                        <el-dropdown-item @click.native="hAdd(data.id)">添加子部门</el-dropdown-item>
+                        <el-dropdown-item @click.native="hEdit(data.id)">编辑部门</el-dropdown-item>
                         <el-dropdown-item>删除部门</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
