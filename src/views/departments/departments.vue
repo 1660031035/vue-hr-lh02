@@ -18,7 +18,7 @@
                     操作<i class="el-icon-arrow-down" />
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>添加子部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="hAdd('')">添加子部门</el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </el-col>
@@ -59,12 +59,13 @@
           </template>
         </el-tree>
         <el-dialog
+          v-if="showDialog"
           :title="(isEdit ? '编辑' : '添加') + '部门'"
           :visible.sync="showDialog"
           :close-on-click-modal="false"
           :close-on-press-escape="false"
         >
-          <DeptDialog v-if="showDialog" :is-edit="isEdit" :pid="curId" @success="hSuccess" />
+          <DeptDialog :is-edit="isEdit" :pid="curId" @success="hSuccess" />
         </el-dialog>
       </el-card>
 

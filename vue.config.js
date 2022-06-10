@@ -39,11 +39,12 @@ module.exports = {
     // 代理配置
     proxy: {
     // 如果请求地址以/api打头,就出触发代理机制
+    // http://ihrm-java.itheima.net
     // http://localhost:9528/api/login -> http://localhost:3000/api/login
       '/api': {
-      target: 'http://ihrm-java.itheima.net' // 
+        target: 'http://localhost:3000' //
+      }
     }
-  }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
