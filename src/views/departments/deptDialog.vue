@@ -44,7 +44,7 @@ export default {
     // 自定义校验编码函数
     const valiCode = (rule, value, callback) => {
       // 从originList中找出所有的编码数据
-      const existNameList = this.originList.map(ele => ele.code)
+      let existCodeList = this.originList.map(ele => ele.code)
       // 添加部门的时候检测编码是否存在,如果存在就返回错误信息,不存在就返回callback()
       // 如果当前是编辑状态就把当前编辑状态的编码排除在外
       if (this.isEdit) {
