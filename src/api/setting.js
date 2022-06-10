@@ -11,3 +11,14 @@ export function getRoles(params) {
     'params': params
   })
 }
+
+/**
+ * 删除角色
+ * @returns
+ */
+export function delRole(id) {
+  return request({
+    url: `/api/sys/role/${id}`,
+    method: 'delete'
+  })
+}

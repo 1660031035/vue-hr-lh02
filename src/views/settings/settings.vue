@@ -22,7 +22,7 @@
                 <template slot-scope="scope">
                   <el-button size="small" type="success">分配权限</el-button>
                   <el-button size="small" type="primary">编辑</el-button>
-                  <el-button size="small" type="danger">删除</el-button>
+                  <el-button size="small" type="danger" @click="hDel(scope.row.id)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -54,7 +54,7 @@
 </template>
 <script>
 // 导入获取所有角色信息接口
-import { getRoles } from '@/api/setting'
+import { getRoles, delRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -68,6 +68,30 @@ export default {
     this.loadRole()
   },
   methods: {
+    async doDel(id) {
+      await delRole(id)
+      // 成功提示
+      this.$message.success('删除成功')
+      // 如果删除之前,当前页面只有一条数据,则当前的页面减一,如果页码小于0，说明只剩一页，页码变为1
+      if (this.roles.length === 1) {
+        this.page--
+        if (this.page <= 0) {
+          this.page = 1
+        }
+      }
+      // 刷新列表
+      this.loadRole()
+    },
+    hDel(id) {
+      // 添加询问框
+      this.$confirm('此操作将永久删除角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.doDel(id)
+      }).catch(err => err)
+    },
     hCurrentChange(newPage) {
       // 翻页时执行
       console.log(newPage)
