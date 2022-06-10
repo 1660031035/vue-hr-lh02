@@ -28,8 +28,23 @@
             </el-table>
 
             <el-row type="flex" justify="center" align="middle" style="height: 60px">
-              <!-- 分页组件 -->
-              <el-pagination layout="prev,pager,next" />
+              <!-- 分页组件
+                sizes: 显示页码
+                :page-sizes: 切换每页条数
+                :page-size: 每页显示几条
+                :current-page: 当前的页码
+                @current-page: 翻页时执行
+                @size-change:切换每页条数时执行
+              -->
+              <el-pagination
+                layout="sizes,prev,pager,next"
+                :total="total"
+                :page-sizes="[1,2,3,4]"
+                :page-size="pagesize"
+                :current-page="page"
+                @current-change="hCurrentChange"
+                @size-change="hSizeChange"
+              />
             </el-row>
           </el-tab-pane>
         </el-tabs>
@@ -44,16 +59,33 @@ export default {
   data() {
     return {
       roles: [], // 传入表单的数据
-      total: 0 // 数据总条数
+      total: 0, // 数据总条数
+      page: 1, // 当前页码
+      pagesize: 2 // 每页条数
     }
   },
   created() {
     this.loadRole()
   },
   methods: {
+    hCurrentChange(newPage) {
+      // 翻页时执行
+      console.log(newPage)
+      this.page = newPage
+      // 刷新列表
+      this.loadRole()
+    },
+    hSizeChange(newSize) {
+      // 切换每页条数时执行
+      this.pagesize = newSize
+      // 更改页码为1
+      this.page = 1
+      // 刷新列表
+      this.loadRole()
+    },
     async loadRole() {
       try {
-        const res = await getRoles({ page: 1, pagesize: 10 })
+        const res = await getRoles({ page: this.page, pagesize: this.pagesize })
         console.log(res)
         this.total = res.data.total
         this.roles = res.data.rows
