@@ -44,7 +44,7 @@ export default {
     // 自定义校验编码函数
     const valiCode = (rule, value, callback) => {
       // 从originList中找出所有的编码数据
-      let existCodeList = this.originList.map(ele => ele.code)
+      const existNameList = this.originList.map(ele => ele.code)
       // 添加部门的时候检测编码是否存在,如果存在就返回错误信息,不存在就返回callback()
       // 如果当前是编辑状态就把当前编辑状态的编码排除在外
       if (this.isEdit) {
@@ -57,12 +57,32 @@ export default {
         callback()
       }
     }
+    // 自定义校验编码函数
+    const valiName = (rule, value, callback) => {
+      // 从originList中找出所有的名字数据
+      let existNameList = this.originList.map(ele => ele.name)
+      // 添加部门的时候检测编码是否存在,如果存在就返回错误信息,不存在就返回callback()
+      // 如果当前是编辑状态就把当前编辑状态的编码排除在外
+      if (this.isEdit) {
+        console.log(this.originList, 'existNameList.id', this.pid)
+        const obj = this.originList.find(ele => ele.id === this.pid)
+        console.log(obj)
+        const pid = obj.pid
+        existNameList = this.originList.filter(ele => ele.id !== this.pid && ele.pid === pid).map(ele => ele.name)
+      }
+      if (existNameList.includes(value)) {
+        callback(new Error('此名字已存在'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 表单校验
       rules: {
         name: [
           { required: true, message: '部门名称不能为空', trigger: 'blur' },
-          { min: 1, max: 50, message: '部门名称要求1-50个字符', trigger: 'blur' }
+          { min: 1, max: 50, message: '部门名称要求1-50个字符', trigger: 'blur' },
+          { validator: valiName, trigger: 'blur' }
         ],
         code: [
           { required: true, message: '部门编码不能为空', trigger: 'blur' },
