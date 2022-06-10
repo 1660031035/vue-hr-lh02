@@ -61,7 +61,7 @@
           <el-form-item label="角色名称" prop="name">
             <el-input v-model="roleForm.name" />
           </el-form-item>
-          <el-form-item label="角色描述">
+          <el-form-item label="角色描述" prop="description">
             <el-input v-model="roleForm.description" />
           </el-form-item>
         </el-form>
@@ -78,7 +78,7 @@
 </template>
 <script>
 // 导入获取所有角色信息接口
-import { getRoles, delRole } from '@/api/setting'
+import { getRoles, delRole, addRole } from '@/api/setting'
 export default {
   data() {
     return {
@@ -92,7 +92,8 @@ export default {
         description: ''
       },
       rules: {
-        name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }]
+        name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
+        description: [{ required: true, message: '角色描述不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -100,6 +101,27 @@ export default {
     this.loadRole()
   },
   methods: {
+    hSave() {
+      this.$refs.roleForm.validate(valid => {
+        if (valid) {
+          this.doAdd
+        }
+      })
+    },
+    async doAdd() {
+      await addRole(this.roleForm)
+      // console.log(res)
+      this.loadRole()
+      this.$message.success('添加成功')
+      // 关闭弹框
+      this.showDialog = false
+    },
+    hSubmit() {
+      // 兜底验证
+      this.hSave()
+      // 添加角色
+      this.doAdd()
+    },
     // 让每页的序号不是从1开始，而是延续上一页的序号 index是序号从0开始
     changeIndex(index) {
       index += 1
