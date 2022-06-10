@@ -15,7 +15,7 @@
             </el-row>
             <!-- 表格 -->
             <el-table :data="roles">
-              <el-table-column type="index" label="序号" width="120" />
+              <el-table-column type="index" :index="changeIndex" label="序号" width="120" />
               <el-table-column prop="name" label="角色名称" width="240" />
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
@@ -68,6 +68,16 @@ export default {
     this.loadRole()
   },
   methods: {
+    // 让每页的序号不是从1开始，而是延续上一页的序号 index是序号从0开始
+    changeIndex(index) {
+      index += 1
+      // 如果翻页了
+      if (this.page > 1) {
+        index = index + (this.pagesize * this.page) - this.pagesize
+        // console.log(index)
+      }
+      return index
+    },
     async doDel(id) {
       await delRole(id)
       // 成功提示
