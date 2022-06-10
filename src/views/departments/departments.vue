@@ -65,7 +65,7 @@
           :close-on-click-modal="false"
           :close-on-press-escape="false"
         >
-          <DeptDialog :is-edit="isEdit" :pid="curId" @success="hSuccess" />
+          <DeptDialog :is-edit="isEdit" :pid="curId" @hCancel="hCancel" @success="hSuccess" />
         </el-dialog>
       </el-card>
 
