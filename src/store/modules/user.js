@@ -1,6 +1,6 @@
-import { getToken, setToken } from "@/utils/auth"
+import { getToken, setToken } from '@/utils/auth'
 // 导入封装的函数
-import { login, getProfile, getUserInfo} from "@/api/user"
+import { login, getProfile, getUserInfo } from '@/api/user'
 // 代码优化: 在vuex中的action中发登录请求
 export default {
   namespaced: true,
@@ -16,9 +16,9 @@ export default {
       setToken(newToken)
     },
     setUserInfo(state, userInfo) {
-      state.userInfo =  userInfo
+      state.userInfo = userInfo
       console.log(userInfo)
-  },
+    }
   },
   actions: {
     async userLogin(context, data) {
@@ -33,14 +33,14 @@ export default {
       console.log('用来获取用户信息的,', rs)
       context.commit('setUserInfo', rs.data)
       const rsInfo = await getUserInfo(rs.data.userId)
-      const obj = {...rs.data, ...rsInfo.data}
+      const obj = { ...rs.data, ...rsInfo.data }
       context.commit('setUserInfo', obj)
-  },
-  logout(context) {
+    },
+    logout(context) {
     // 清空token和用户信息
-    context.commit('setToken', '')
-    context.commit('setUserInfo', {})
-  },
+      context.commit('setToken', '')
+      context.commit('setUserInfo', {})
+    }
   },
   getters: {}
 }

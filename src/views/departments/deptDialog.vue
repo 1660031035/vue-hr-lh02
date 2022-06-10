@@ -8,7 +8,7 @@
     </el-form-item>
     <el-form-item label="部门负责人">
       <el-select v-model="form.manager" style="width:80%" placeholder="请选择">
-        <el-option v-for="item in list" :key="item.id" :label="item.username" :value="item.username"/>
+        <el-option v-for="item in list" :key="item.id" :label="item.username" :value="item.username" />
       </el-select>
     </el-form-item>
     <el-form-item label="部门介绍">
@@ -25,18 +25,18 @@
 import { getEmployee } from '@/api/employees'
 import { addDepartments, getDepartDetail, updateDepartments } from '@/api/departments.js'
 export default {
-    props: {
-      // 接收父组件传递过来的参数
-      isEdit: {
-        type: Boolean,
-        required: true
-      },
-      pid: {
-        type: String,
-        required: true
-      }
+  props: {
+    // 接收父组件传递过来的参数
+    isEdit: {
+      type: Boolean,
+      required: true
     },
-    data() {
+    pid: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
     return {
       list: [],
       form: {
@@ -49,7 +49,7 @@ export default {
   },
   created() {
     this.LoadEmployee()
-    if(this.isEdit) {
+    if (this.isEdit) {
       // 如果是编辑状态才调用
       this.loadDepartDetail()
     }
@@ -62,7 +62,7 @@ export default {
     },
     async doAdd() {
       // 组装参数
-      const d = {...this.form, pid: this.pid}
+      const d = { ...this.form, pid: this.pid }
       await addDepartments(d)
       // 通知父组件: 关闭弹框,再次更新数据
       this.$emit('success')

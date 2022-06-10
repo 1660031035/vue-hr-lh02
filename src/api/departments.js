@@ -2,14 +2,14 @@ import request from '@/utils/request'
 export function getDepartments() {
   return request({
     url: '/api/company/department',
-    method: 'get',
+    method: 'get'
   })
 }
 
 /**
  * @description: 新增子部门
- * @param {*} 
-        data { 
+ * @param {*}
+        data {
             name: '', // 部门名称
             code: '', // 部门编码
             manager: '', // 部门管理者

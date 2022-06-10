@@ -5,7 +5,7 @@
       <!-- 放置标题图片 @是设置的别名-->
       <div class="title-container">
         <h3 class="title">
-        <img src="@/assets/common/login-logo.png" alt="">
+          <img src="@/assets/common/login-logo.png" alt="">
         </h3>
       </div>
 
@@ -58,7 +58,6 @@
 
 <script>
 import { validUserMobile } from '@/utils/validate'
-import { login } from '@/api/user'
 // 1. 表单验证
 // 1.1 手机号验证
 // 在utils/validate下定义校验规则validUserMobile函数
@@ -86,7 +85,7 @@ export default {
         mobile: [
           { required: true, trigger: 'blur', message: '手机号不能为空' },
           { trigger: 'blur', validator: validateUserMobile }
-          ],
+        ],
         password: [
           { required: true, trigger: 'blur', message: '密码不能为空' },
           { min: 6, max: 15, trigger: 'blur', message: '请输入6-15位的密码' }]
@@ -135,8 +134,7 @@ export default {
         await this.$store.dispatch('user/userLogin', this.loginForm)
         // 跳转到主页
         this.$router.push(this.$route.query.return_url || '/')
-
-      } catch(err) {
+      } catch (err) {
         console.log('登录错误')
       }
     }

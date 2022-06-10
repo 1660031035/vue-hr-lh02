@@ -18,15 +18,15 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // 判断是否有userId再去发请求
       // 没有就获取,有就不用获取
-        // 1. 获取个人信息
-        const userInfo = store.state.user.userInfo
-        if(!userInfo.userId) {
-          // 如果没有就获取
-          console.log('请求个人信息')
-          await store.dispatch('user/getUserInfo')
-        }
-        next()
+      // 1. 获取个人信息
+      const userInfo = store.state.user.userInfo
+      if (!userInfo.userId) {
+        // 如果没有就获取
+        console.log('请求个人信息')
+        await store.dispatch('user/getUserInfo')
       }
+      next()
+    }
   } else {
     // 没有token，只能访问白名单
     if (whiteList.includes(to.path)) {

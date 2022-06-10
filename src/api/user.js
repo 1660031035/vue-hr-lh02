@@ -20,7 +20,7 @@ export function getProfile() {
 export function getUserInfo(id) {
   return request({
     url: '/api/sys/user/' + id,
-    method: 'get',
+    method: 'get'
   })
 }
 export function logout() {

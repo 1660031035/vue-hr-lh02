@@ -11,21 +11,21 @@ const service = axios.create({
   timeout: 5000
 })
 
-service.interceptors.request.use(function (config) {
+service.interceptors.request.use(function(config) {
   // 在发送请求之前做些什么
   // 设置统一的请求头
-  // 获取token 
+  // 获取token
   console.log(store)
   const token = store.state.user.token
   // 如果有token就加在请求头上
-  if(token) {
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
-  return config;
-}, function (error) {
+  return config
+}, function(error) {
   // 对请求错误做些什么
-  return Promise.reject(error);
-});
+  return Promise.reject(error)
+})
 
 // response interceptor 响应拦截器
 // request interceptor 请求拦截器
@@ -40,7 +40,7 @@ service.interceptors.response.use(response => {
   // 2xx 范围内的状态码都会触发该函数。
   // 对响应数据做点什么
   // 如果response.data.success返回true就代表操作成功
-  if(response.data.success) {
+  if (response.data.success) {
     // 操作成功
     return response.data
   } else {
@@ -51,10 +51,8 @@ service.interceptors.response.use(response => {
 }, error => {
   // 超出 2xx 范围的状态码都会触发该函数。
   // 对响应错误做点什么
-  return Promise.reject(error);
-});
-
-
+  return Promise.reject(error)
+})
 
 // 导出axios实例
 export default service

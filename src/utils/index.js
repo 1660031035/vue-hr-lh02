@@ -127,12 +127,12 @@ export function param2Obj(url) {
  */
 export function toTreeList(list) {
   // 1. 定义两个变量
-  let map = {}
-  let treeList = []
+  const map = {}
+  const treeList = []
   // 2. 建立一个映射关系, 并给每个元素补充children属性
   list.forEach(ele => {
     // 如果没有children属性,就添加
-    if(!ele.children) {
+    if (!ele.children) {
       ele.children = []
     }
     // 建立映射关系
@@ -144,7 +144,7 @@ export function toTreeList(list) {
     const parent = map[ele.pid]
     // 如果有上级就添加到parent.children上
     // 如果没有上级就添加到treeList上
-    if(parent) {
+    if (parent) {
       parent.children.push(ele)
     } else {
       treeList.push(ele)
