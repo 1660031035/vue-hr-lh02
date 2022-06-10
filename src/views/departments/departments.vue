@@ -49,7 +49,7 @@
                       <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item @click.native="hAdd(data.id)">添加子部门</el-dropdown-item>
                         <el-dropdown-item @click.native="hEdit(data.id)">编辑部门</el-dropdown-item>
-                        <el-dropdown-item @click.native="hDel(data.id)">删除部门</el-dropdown-item>
+                        <el-dropdown-item v-if="data.children.length === 0" @click.native="hDel(data.id)">删除部门</el-dropdown-item>
                       </el-dropdown-menu>
                     </el-dropdown>
                   </el-col>
