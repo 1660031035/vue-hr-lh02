@@ -34,9 +34,29 @@ export default {
     pid: {
       type: String,
       required: true
+    },
+    originList: {
+      type: Array,
+      required: true
     }
   },
   data() {
+    // 自定义校验编码函数
+    const valiCode = (rule, value, callback) => {
+      // 从originList中找出所有的编码数据
+      let existCodeList = this.originList.map(ele => ele.code)
+      // 添加部门的时候检测编码是否存在,如果存在就返回错误信息,不存在就返回callback()
+      // 如果当前是编辑状态就把当前编辑状态的编码排除在外
+      if (this.isEdit) {
+        console.log(this.originList, 'existCodeList.id', this.pid)
+        existCodeList = this.originList.filter(ele => ele.id !== this.pid).map(ele => ele.code)
+      }
+      if (existCodeList.includes(value)) {
+        callback(new Error('此编码已存在'))
+      } else {
+        callback()
+      }
+    }
     return {
       // 表单校验
       rules: {
@@ -46,7 +66,8 @@ export default {
         ],
         code: [
           { required: true, message: '部门编码不能为空', trigger: 'blur' },
-          { min: 1, max: 50, message: '部门编码要求1-50个字符', trigger: 'blur' }
+          { min: 1, max: 50, message: '部门编码要求1-50个字符', trigger: 'blur' },
+          { validator: valiCode, trigger: 'blur' }
         ],
         manager: [
           { required: true, message: '部门负责人不能为空', trigger: 'blur' }

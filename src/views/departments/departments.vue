@@ -65,7 +65,7 @@
           :close-on-click-modal="false"
           :close-on-press-escape="false"
         >
-          <DeptDialog :is-edit="isEdit" :pid="curId" @hCancel="hCancel" @success="hSuccess" />
+          <DeptDialog :origin-list="originList" :is-edit="isEdit" :pid="curId" @hCancel="hCancel" @success="hSuccess" />
         </el-dialog>
       </el-card>
 
@@ -82,6 +82,8 @@ export default {
   data() {
     // 注册
     return {
+      // 表单校验中的id,pid,name,code
+      originList: [],
       // 检测是否处于编辑状态
       isEdit: false,
       curId: '',
@@ -120,7 +122,16 @@ export default {
     async loadDepartments() {
       const res = await getDepartments()
       res.data.depts.shift()
-      console.log(res)
+      // console.log(res.data.depts)
+      this.originList = res.data.depts.map(item => {
+        return {
+          id: item.id,
+          pid: item.pid,
+          name: item.name,
+          code: item.code
+        }
+      })
+      console.log(this.originList)
       // 调用提前封装好的根据函数来做格式转换
       this.data = toTreeList(res.data.depts)
     },
