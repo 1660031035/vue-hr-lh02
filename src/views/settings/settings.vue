@@ -11,7 +11,7 @@
                 icon="el-icon-plus"
                 size="small"
                 type="primary"
-                @click="showDialog = true"
+                @click="add"
               >新增角色</el-button>
             </el-row>
             <!-- 表格 -->
@@ -22,7 +22,7 @@
               <el-table-column label="操作">
                 <template slot-scope="scope">
                   <el-button size="small" type="success">分配权限</el-button>
-                  <el-button size="small" type="primary">编辑</el-button>
+                  <el-button size="small" type="primary" @click="hEdit(scope.row)">编辑</el-button>
                   <el-button size="small" type="danger" @click="hDel(scope.row.id)">删除</el-button>
                 </template>
               </el-table-column>
@@ -52,10 +52,11 @@
       </el-card>
       <!-- 新增弹框 -->
       <el-dialog
-        title="编辑弹层"
+        :title="isEdit ? '编辑角色' : '添加角色'"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :visible.sync="showDialog"
+        @close="$refs.roleForm.resetFields()"
       >
         <el-form ref="roleForm" :model="roleForm" :rules="rules" label-width="100px">
           <el-form-item label="角色名称" prop="name">
@@ -68,7 +69,7 @@
         <!-- 底部 -->
         <el-row slot="footer" type="flex" justify="center">
           <el-col :span="6">
-            <el-button size="small">取消</el-button>
+            <el-button size="small" @click="showDialog = false">取消</el-button>
             <el-button size="small" type="primary" @click="hSubmit">确定</el-button>
           </el-col>
         </el-row>
@@ -78,10 +79,12 @@
 </template>
 <script>
 // 导入获取所有角色信息接口
-import { getRoles, delRole, addRole } from '@/api/setting'
+import { getRoles, delRole, addRole, updateRole } from '@/api/setting'
 export default {
   data() {
     return {
+      // 判断是否为编辑
+      isEdit: false,
       roles: [], // 传入表单的数据
       total: 0, // 数据总条数
       page: 1, // 当前页码
@@ -101,26 +104,38 @@ export default {
     this.loadRole()
   },
   methods: {
-    hSave() {
-      this.$refs.roleForm.validate(valid => {
-        if (valid) {
-          this.doAdd
-        }
-      })
+    add() {
+      this.isEdit = false
+      this.showDialog = true
+    },
+    async doEdit() {
+      await updateRole(this.roleForm)
+      this.showDialog = false
+      this.loadRole()
+    },
+    hEdit(data) {
+      this.roleForm = { ...data }
+      this.isEdit = true
+      this.showDialog = true
     },
     async doAdd() {
       await addRole(this.roleForm)
       // console.log(res)
-      this.loadRole()
       this.$message.success('添加成功')
       // 关闭弹框
       this.showDialog = false
+      // 当添加角色时,自动跳转到角色所在那一页
+      this.total++
+      this.page = Math.ceil(this.total / this.pagesize)
+      this.loadRole()
     },
     hSubmit() {
-      // 兜底验证
-      this.hSave()
       // 添加角色
-      this.doAdd()
+      this.$refs.roleForm.validate(valid => {
+        if (valid) {
+          this.isEdit ? this.doEdit() : this.doAdd()
+        }
+      })
     },
     // 让每页的序号不是从1开始，而是延续上一页的序号 index是序号从0开始
     changeIndex(index) {
