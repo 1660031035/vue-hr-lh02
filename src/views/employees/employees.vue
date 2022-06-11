@@ -31,7 +31,19 @@
           </el-table-column>
         </el-table>
         <el-row type="flex" justify="center" align="middle" style="height: 60px">
-          <el-pagination layout="sizes, prev, pager, next" />
+          <!-- 分页效果
+          @size-change 每页几条 改变执行
+          @current-change 翻页时执行回调
+          -->
+          <el-pagination
+            layout="sizes, prev, pager, next"
+            :total="total"
+            :current-page="page"
+            :page-sizes="[10,15,20,25]"
+            :page-size="pagesize"
+            @size-change="hSizeChange"
+            @current-change="hcurrentchange"
+          />
         </el-row>
       </el-card>
     </div>
@@ -52,6 +64,17 @@ export default {
     this.loadEmployee()
   },
   methods: {
+    // 翻页时执行
+    hSizeChange(newPage) {
+      this.pagesize = newPage
+      this.loadEmployee()
+      this.page = 1
+    },
+    // 每页几条, 改变时执行
+    hcurrentchange(curPage) {
+      this.page = curPage
+      this.loadEmployee()
+    },
     async loadEmployee() {
       const res = await getEmployeeList(this.page, this.pagesize)
       console.log(res.data, '员工信息')
