@@ -6,7 +6,7 @@
         <img src="@/assets/common/logo.png" class="sidebar-logo  ">
       </router-link>
     </transition>
-</div>
+  </div>
 </template>
 
 <script>
