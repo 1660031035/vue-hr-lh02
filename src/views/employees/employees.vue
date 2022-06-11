@@ -19,7 +19,11 @@
           <el-table-column label="序号" type="index" />
           <el-table-column label="姓名" prop="username" />
           <el-table-column label="工号" prop="workNumber" />
-          <el-table-column label="聘用形式" prop="formOfEmployment" />
+          <el-table-column label="聘用形式" prop="formOfEmployment">
+            <template slot-scope="scope">
+              {{ format(scope.row.formOfEmployment) }}
+            </template>
+          </el-table-column>
           <el-table-column label="部门" prop="departmentName" />
           <el-table-column label="入职时间" prop="timeOfEntry" />
           <el-table-column label="操作" width="280">
@@ -51,6 +55,8 @@
 </template>
 <script>
 import { getEmployeeList } from '@/api/employees'
+// 枚举
+import { TYPE_MAP } from '@/constant/employees'
 export default {
   data() {
     return {
@@ -64,6 +70,9 @@ export default {
     this.loadEmployee()
   },
   methods: {
+    format(type) {
+      return TYPE_MAP[type] || '未知'
+    },
     // 翻页时执行
     hSizeChange(newPage) {
       this.pagesize = newPage
