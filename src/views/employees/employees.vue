@@ -15,7 +15,7 @@
       </page-tools>
 
       <el-card style="margin-top: 10px;">
-        <el-table border :data="list">
+        <el-table border :data="list" :default-sort="{ prop: 'timeOfEntry' }">
           <el-table-column label="序号" type="index" />
           <el-table-column label="姓名" prop="username" />
           <el-table-column label="工号" prop="workNumber" />
@@ -25,7 +25,7 @@
             </template>
           </el-table-column>
           <el-table-column label="部门" prop="departmentName" />
-          <el-table-column label="入职时间" prop="timeOfEntry" />
+          <el-table-column label="入职时间" sortable prop="timeOfEntry" />
           <el-table-column label="操作" width="280">
             <template>
               <el-button type="text" size="small">查看</el-button>
