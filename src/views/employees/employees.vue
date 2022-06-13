@@ -52,12 +52,13 @@
       </el-card>
     </div>
     <el-dialog
+      v-if="showDialog"
       title="新增员工"
       :visible.sync="showDialog"
       :close-on-click-modal="false"
       :close-on-press-escape="false"
     >
-      <emp-dialog @close="showDialog=false" />
+      <emp-dialog ref="AddEmployee" @update-empolyee="hUpdateEmpolyee" @close="showDialog=false" />
     </el-dialog>
   </div>
 </template>
@@ -85,6 +86,15 @@ export default {
     this.loadEmployee()
   },
   methods: {
+    // 添加成功
+    hUpdateEmpolyee() {
+      // 关闭弹框,刷新列表
+      this.showDialog = false
+      // 添加成功, 进入最后一页
+      this.total++
+      this.page = Math.ceil(this.total / this.pagesize)
+      this.loadEmployee()
+    },
     async doDel(id) {
       await delEmployee(id)
       // 如果删除第最后一页的最一条数据之后，页面会显示不正常

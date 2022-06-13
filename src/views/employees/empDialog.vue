@@ -36,6 +36,8 @@
 </template>
 
 <script>
+// 导入新增员工信息api
+import { addEmployee } from '@/api/employees'
 // 导入获取部门数据api
 import { getDepartments } from '@/api/departments'
 // 导入树形结构
@@ -67,7 +69,7 @@ export default {
           { pattern: /^1[3-9]\d{9}$/, message: '手机号格式不正确', trigger: 'blur' }
         ],
         formOfEmployment: [
-          { required: true, message: '聘用形式不能为空', trigger: 'blur' }
+          { required: true, message: '聘用形式不能为空', trigger: 'change' }
         ],
         workNumber: [
           { required: true, message: '工号不能为空', trigger: 'blur' }
@@ -106,12 +108,26 @@ export default {
       // 显示tree
       this.showTree = true
     },
+
+    async doAdd() {
+      try {
+        // 传入输入的数据
+        await addEmployee(this.formData)
+        // 成功提示
+        this.$message.success('添加成功')
+        // 通知父组件
+        this.$emit('update-empolyee')
+      } catch (error) {
+        console.log(error)
+        this.$message.error('添加失败')
+      }
+    },
+    // 确定按钮
     hSubmit() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          // 做添加
-
-          // this.$emit('close')
+          this.doAdd()
+          this.$emit('close')
         }
       })
     }
