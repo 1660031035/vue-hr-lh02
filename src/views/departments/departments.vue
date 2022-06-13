@@ -74,7 +74,7 @@
 </template>
 <script>
 import { getDepartments, delDepartment } from '@/api/departments'
-import { toTreeList } from '@/utils'
+import { toTreeList } from '@/utils/index'
 // 引入弹框组件
 import DeptDialog from './deptDialog.vue'
 export default {

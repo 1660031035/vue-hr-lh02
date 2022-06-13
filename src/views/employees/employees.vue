@@ -51,7 +51,12 @@
         </el-row>
       </el-card>
     </div>
-    <el-dialog title="新增员工" :visible.sync="showDialog">
+    <el-dialog
+      title="新增员工"
+      :visible.sync="showDialog"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+    >
       <emp-dialog @close="showDialog=false" />
     </el-dialog>
   </div>
@@ -90,7 +95,7 @@ export default {
         }
       }
       // 刷新列表
-      this.loadEmployeeList()
+      this.loadEmployee()
       // 删除成功提示
       this.$message.success('删除成功')
     },

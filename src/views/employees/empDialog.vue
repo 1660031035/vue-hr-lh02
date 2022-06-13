@@ -11,13 +11,19 @@
       <el-date-picker v-model="formData.timeOfEntry" style="width:50%" placeholder="请选择入职时间" />
     </el-form-item>
     <el-form-item label="聘用形式" prop="formOfEmployment">
-      <el-select v-model="formData.formOfEmployment" style="width:50%" placeholder="请选择" />
+      <el-select v-model="formData.formOfEmployment" style="width:50%" placeholder="请选择">
+        <!-- [{id: 1, label:'正式'},{id: 2, label:'非正式'}] -->
+        <el-option v-for="item in employType" :key="item.id" :value="item.id" :label="item.label" />
+      </el-select>
     </el-form-item>
     <el-form-item label="工号" prop="workNumber">
       <el-input v-model="formData.workNumber" style="width:50%" placeholder="请输入工号" />
     </el-form-item>
     <el-form-item label="部门" prop="departmentName">
-      <el-input v-model="formData.departmentName" style="width:50%" placeholder="请选择部门" />
+      <el-input v-model="formData.departmentName" style="width:50%" placeholder="请选择部门" @focus="hFocus()" />
+      <div v-if="showTree" class="tree-box">
+        <el-tree :data="treeData" :props="{ label: 'name' }" @node-click="hNodeClick" />
+      </div>
     </el-form-item>
     <el-form-item label="转正时间" prop="correctionTime">
       <el-date-picker v-model="formData.correctionTime" style="width:50%" placeholder="请选择转正时间" />
@@ -30,9 +36,18 @@
 </template>
 
 <script>
+// 导入获取部门数据api
+import { getDepartments } from '@/api/departments'
+// 导入树形结构
+import { toTreeList } from '@/utils/index'
+import { TYPE_MAP } from '@/constant/employees'
+
 export default {
   data() {
     return {
+      treeData: [],
+      showTree: false, // 部门显示框
+      employType: Object.keys(TYPE_MAP).map(key => { return { id: key, label: TYPE_MAP[key] } }),
       formData: {
         username: '', // 用户名
         mobile: '', // 手机号
@@ -67,6 +82,30 @@ export default {
     }
   },
   methods: {
+    // 点击将树状数据显示到输入框
+    // 如果没有children属性,就直接显示
+    // 如果有children属性就显示children
+    hNodeClick(obj, node) {
+      // console.log(obj, node, '06C09083.png')
+      if (obj.children.length) return // 没有children 直接返回
+      // 将选择的部门显示到输入框
+      this.formData.departmentName = obj.name
+      // 隐藏树状结构
+      this.showTree = false
+    },
+    hFocus() {
+      this.loadDepatrments()
+    },
+    async loadDepatrments() {
+      const res = await getDepartments()
+      // 去掉第一个元素
+      res.data.depts.shift()
+      // 转化为树状结构
+      this.treeData = toTreeList(res.data.depts)
+      console.log(this.treeData)
+      // 显示tree
+      this.showTree = true
+    },
     hSubmit() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
