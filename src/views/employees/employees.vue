@@ -10,7 +10,7 @@
         <template #right>
           <el-button type="warning" size="small">导入excel</el-button>
           <el-button type="danger" size="small">导出excel</el-button>
-          <el-button type="primary" size="small">新增员工</el-button>
+          <el-button type="primary" size="small" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
 
@@ -51,15 +51,25 @@
         </el-row>
       </el-card>
     </div>
+    <el-dialog title="新增员工" :visible.sync="showDialog">
+      <emp-dialog @close="showDialog=false" />
+    </el-dialog>
   </div>
 </template>
 <script>
 import { getEmployeeList, delEmployee } from '@/api/employees'
+// 引入子组件
+import empDialog from './empDialog.vue'
 // 枚举
 import { TYPE_MAP } from '@/constant/employees'
 export default {
+  components: {
+    empDialog
+  },
   data() {
     return {
+      // 点击按钮显示弹层
+      showDialog: false,
       list: [],
       page: 1,
       pagesize: 10,
