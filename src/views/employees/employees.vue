@@ -27,10 +27,10 @@
           <el-table-column label="部门" prop="departmentName" />
           <el-table-column label="入职时间" sortable prop="timeOfEntry" />
           <el-table-column label="操作" width="280">
-            <template>
+            <template slot-scope="scope">
               <el-button type="text" size="small">查看</el-button>
               <el-button type="text" size="small">分配角色</el-button>
-              <el-button type="text" size="small">删除</el-button>
+              <el-button type="text" size="small" @click="hDel(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-import { getEmployeeList } from '@/api/employees'
+import { getEmployeeList, delEmployee } from '@/api/employees'
 // 枚举
 import { TYPE_MAP } from '@/constant/employees'
 export default {
@@ -70,6 +70,30 @@ export default {
     this.loadEmployee()
   },
   methods: {
+    async doDel(id) {
+      await delEmployee(id)
+      // 如果删除第最后一页的最一条数据之后，页面会显示不正常
+      if (this.list.length === 1) {
+        this.page--
+        if (this.page <= 0) {
+          this.page = 1
+        }
+      }
+      // 刷新列表
+      this.loadEmployeeList()
+      // 删除成功提示
+      this.$message.success('删除成功')
+    },
+    hDel(id) {
+      // 添加询问框
+      this.$confirm('你确定要删除吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.doDel(id)
+      }).catch(error => console.log(error))
+    },
     format(type) {
       return TYPE_MAP[type] || '未知'
     },

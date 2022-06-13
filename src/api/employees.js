@@ -22,3 +22,15 @@ export function getEmployeeList(page, size) {
     params: { page, size }
   })
 }
+
+/**
+ * @description: 删除员工
+ * @param {*} id 员工id
+ * @return {*}
+ */
+export function delEmployee(id) {
+  return request({
+    method: 'delete',
+    url: `/api/sys/user/${id}`
+  })
+}
