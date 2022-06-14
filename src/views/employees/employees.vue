@@ -9,7 +9,7 @@
         <!-- 插入到right插槽位置 -->
         <template #right>
           <el-button type="warning" size="small" @click="$router.push('/import')">导入excel</el-button>
-          <el-button type="danger" size="small">导出excel</el-button>
+          <el-button type="danger" size="small" @click="hExport()">导出excel</el-button>
           <el-button type="primary" size="small" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
@@ -86,6 +86,47 @@ export default {
     this.loadEmployee()
   },
   methods: {
+    // 封装一个处理数据的函数
+    formatData(rows) {
+      // 提取英文的属性
+      const enHeader = Object.keys(rows[0])
+      const map = {
+        'id': '编号',
+        'password': '密码',
+        'mobile': '手机号',
+        'username': '姓名',
+        'timeOfEntry': '入职日期',
+        'formOfEmployment': '聘用形式',
+        'correctionTime': '转正日期',
+        'workNumber': '工号',
+        'departmentName': '部门',
+        'staffPhoto': '头像地址'
+      }
+      const header = enHeader.map(item => map[item])
+      const data = rows.map(obj => {
+        obj.formOfEmployment = TYPE_MAP[obj.formOfEmployment]
+        return Object.values(obj)
+      })
+      return { header, data }
+    },
+    // 导出excel
+    async hExport() {
+      // 发请求拿数据
+      const res = await getEmployeeList(this.page, this.pagesize)
+      // 解构
+      const { header, data } = this.formatData(res.data.rows)
+      import('@/vendor/Export2Excel').then(excel => {
+        // excel表示导入的模块对象
+        console.log(excel)
+        excel.export_json_to_excel({
+          header, // 表头 必填
+          data, // 具体数据 必填
+          filename: '员工信息表', // 文件名称
+          autoWidth: true, // 宽度是否自适应
+          bookType: 'xlsx' // 生成的文件类型
+        })
+      })
+    },
     // 添加成功
     hUpdateEmpolyee() {
       // 关闭弹框,刷新列表
