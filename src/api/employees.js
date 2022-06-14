@@ -47,3 +47,16 @@ export function addEmployee(data) {
     data
   })
 }
+
+/**
+ * @description: 导入excel
+ * @param {*} data
+ * @return {*}
+ */
+export function importEmployee(data) {
+  return request({
+    url: '/api/sys/user/batch',
+    method: 'post',
+    data
+  })
+}

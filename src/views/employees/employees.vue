@@ -8,7 +8,7 @@
         </template>
         <!-- 插入到right插槽位置 -->
         <template #right>
-          <el-button type="warning" size="small">导入excel</el-button>
+          <el-button type="warning" size="small" @click="$router.push('/import')">导入excel</el-button>
           <el-button type="danger" size="small">导出excel</el-button>
           <el-button type="primary" size="small" @click="showDialog = true">新增员工</el-button>
         </template>
@@ -93,6 +93,7 @@ export default {
       // 添加成功, 进入最后一页
       this.total++
       this.page = Math.ceil(this.total / this.pagesize)
+      console.log('添加成功')
       this.loadEmployee()
     },
     async doDel(id) {
@@ -105,7 +106,7 @@ export default {
         }
       }
       // 刷新列表
-      this.loadEmployee()
+      await this.loadEmployee()
       // 删除成功提示
       this.$message.success('删除成功')
     },

@@ -41,7 +41,7 @@ import { addEmployee } from '@/api/employees'
 // 导入获取部门数据api
 import { getDepartments } from '@/api/departments'
 // 导入树形结构
-import { toTreeList } from '@/utils/index'
+import { toTreeList } from '@/utils'
 import { TYPE_MAP } from '@/constant/employees'
 
 export default {
@@ -87,7 +87,7 @@ export default {
     // 点击将树状数据显示到输入框
     // 如果没有children属性,就直接显示
     // 如果有children属性就显示children
-    hNodeClick(obj, node) {
+    hNodeClick(obj) {
       // console.log(obj, node, '06C09083.png')
       if (obj.children.length) return // 没有children 直接返回
       // 将选择的部门显示到输入框
