@@ -26,3 +26,27 @@ export function getUserInfo(id) {
 export function logout() {
 
 }
+
+/**
+ * @description: 获取用某个用户的信息
+ * @param {*} id
+ * @return {*}
+ */
+export function getUserDetailById(id) {
+  return request({
+    url: `/api/sys/user/${id}`
+  })
+}
+
+/**
+ * @description: 保存员工信息
+ * @param {*} data
+ * @return {*}
+ */
+export function saveUserDetailById(data) {
+  return request({
+    url: `/api/sys/user/${data.id}`,
+    method: 'put', // 全量修改
+    data
+  })
+}
