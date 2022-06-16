@@ -28,7 +28,7 @@ export function logout() {
 }
 
 /**
- * @description: 获取用某个用户的信息
+ * @description: 获取某个用户的信息
  * @param {*} id
  * @return {*}
  */

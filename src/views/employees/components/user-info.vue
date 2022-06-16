@@ -67,8 +67,8 @@ export default {
     },
     async doSave() {
       try {
-        const res = await saveUserDetailById(this.userInfo)
-        console.log('保存个人信息之后的结果是', res)
+        await saveUserDetailById(this.userInfo)
+        // console.log('保存个人信息之后的结果是', res)
         // 1. 提示
         this.$message.success('保存成功')
         // 2. 回到列表页
@@ -78,6 +78,7 @@ export default {
       }
     },
     hSave() {
+      // 表单校验
       this.$refs.userForm.validate(valid => {
         valid && this.doSave()
       })

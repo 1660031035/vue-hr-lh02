@@ -18,7 +18,7 @@
       :before-upload="beforeAvatarUpload"
       :http-request="upload"
     >
-      <img v-if="value" :src="value" class="avatar">
+      <img v-if="value" :src="value" class="avatar" alt="">
       <i v-else class="el-icon-plus avatar-uploader-icon" />
     </el-upload>
   </div>
@@ -34,6 +34,7 @@ const cos = new COS({
 })
 export default {
   props: {
+    // default没有的时候默认的值
     value: { type: String, default: '' }
   },
   data() {

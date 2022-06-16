@@ -2,7 +2,6 @@ import request from '@/utils/request'
 
 /**
  * @description: 获取下拉员工数据
- * @param {*}
  * @return {*}
  */
 export function getEmployee() {
@@ -13,8 +12,9 @@ export function getEmployee() {
 
 /**
  * @description: 获取下拉员工数据
- * @param {*}
  * @return {*}
+ * @param page
+ * @param size
  */
 export function getEmployeeList(page, size) {
   return request({
