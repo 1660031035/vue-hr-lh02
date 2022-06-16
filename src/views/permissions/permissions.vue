@@ -16,7 +16,7 @@
               <!-- type为2时为按钮级别的访问权限，它就不能再继续细分了，它就没有添加了 -->
               <el-button v-if="scope.row.type===1" type="text" @click="hAdd(2,scope.row.id)">添加</el-button>
               <el-button type="text">编辑</el-button>
-              <el-button type="text">删除</el-button>
+              <el-button type="text" @click="hDel(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -86,6 +86,23 @@ export default {
     this.loadPermissionList()
   },
   methods: {
+    async doDel(id) {
+      // 添加询问框
+      this.$confirm('确定要删除吗', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
+        await delPermission(id)
+        // 成功提示
+        this.$message.success('删除成功')
+        // 刷新列表
+        await this.loadPermissionList()
+      }).catch(err => err)
+    },
+    hDel(id) {
+      this.doDel(id)
+    },
     // 表单重置
     resetForm() {
       this.formData = {
