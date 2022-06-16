@@ -15,7 +15,7 @@
               <!-- type为1时为页面级访问权限，它可以继续做添加： 设置页面下边某个功能是否可以操作 -->
               <!-- type为2时为按钮级别的访问权限，它就不能再继续细分了，它就没有添加了 -->
               <el-button v-if="scope.row.type===1" type="text" @click="hAdd(2,scope.row.id)">添加</el-button>
-              <el-button type="text">编辑</el-button>
+              <el-button type="text" @click="hEdit(scope.row.id)">编辑</el-button>
               <el-button type="text" @click="hDel(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -70,6 +70,8 @@ import { toTreeList } from '@/utils'
 export default {
   data() {
     return {
+      // 判断是编辑还是添加
+      isEdit: false,
       list: [],
       showDialog: false, // 是否显示弹层
       formData: {
@@ -86,6 +88,25 @@ export default {
     this.loadPermissionList()
   },
   methods: {
+    // 编辑
+    async doEdit() {
+      await updatePermission(this.formData)
+      // 关闭弹框
+      this.showDialog = false
+      // 成功提示
+      this.$message.success('修改成功')
+      // 刷新列表
+      await this.loadPermissionList()
+    },
+    async hEdit(id) {
+      // 显示弹框
+      this.showDialog = true
+      this.isEdit = true
+      const res = await getPermissionDetail(id)
+      // 显示弹框
+      this.showDialog = true
+      this.formData = res.data
+    },
     async doDel(id) {
       // 添加询问框
       this.$confirm('确定要删除吗', '提示', {
@@ -118,6 +139,7 @@ export default {
     },
     // 添加
     async doAdd() {
+      this.isEdit = false
       // 成功添加
       try {
         await addPermission(this.formData)
@@ -135,7 +157,7 @@ export default {
     hSubmit() {
       // 表单校验
       // 添加权限点
-      this.doAdd()
+      this.isEdit ? this.doEdit() : this.doAdd()
     },
     hAdd(type, id) {
       this.showDialog = true
