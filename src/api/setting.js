@@ -48,3 +48,16 @@ export function updateRole(data) {
     data
   })
 }
+
+/**
+ * 获取所有角色信息
+ * @param {*} params  {page, pagesize}
+ * @returns
+ */
+export function getAssignRoles(params) {
+  return request({
+    url: '/api/sys/role',
+    method: 'GET',
+    params: params
+  })
+}

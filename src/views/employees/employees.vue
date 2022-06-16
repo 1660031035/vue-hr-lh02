@@ -34,7 +34,7 @@
           <el-table-column label="操作" width="280">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="$router.push('/employees/detail?id='+scope.row.id)">查看</el-button>
-              <el-button type="text" size="small">分配角色</el-button>
+              <el-button type="text" size="small" @click="hAssign(scope.row.id)">分配角色</el-button>
               <el-button type="text" size="small" @click="hDel(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -65,9 +65,20 @@
     >
       <emp-dialog ref="AddEmployee" @update-empolyee="hUpdateEmpolyee" @close="showDialog=false" />
     </el-dialog>
+    <el-dialog
+      v-if="showDialogRole"
+      title="分配权限"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="showDialogRole"
+    >
+      <assign-role :cur-id="curId" @close="showDialogRole=false" />
+    </el-dialog>
   </div>
 </template>
 <script>
+// 引入组件
+import AssignRole from './assignRole'
 import { getEmployeeList, delEmployee } from '@/api/employees'
 // 引入子组件
 import empDialog from './empDialog.vue'
@@ -75,10 +86,14 @@ import empDialog from './empDialog.vue'
 import { TYPE_MAP } from '@/constant/employees'
 export default {
   components: {
-    empDialog
+    empDialog,
+    AssignRole
   },
   data() {
     return {
+      curId: '',
+      // 分配角色弹框
+      showDialogRole: false,
       // 点击按钮显示弹层
       showDialog: false,
       list: [],
@@ -91,6 +106,12 @@ export default {
     this.loadEmployee()
   },
   methods: {
+    // 分配角色
+    hAssign(id) {
+      this.showDialogRole = true
+      // console.log(id)
+      this.curId = id
+    },
     // 封装一个处理数据的函数
     formatData(rows) {
       // 提取英文的属性
