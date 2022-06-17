@@ -21,7 +21,7 @@
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="hAssign()">分配权限</el-button>
                   <el-button size="small" type="primary" @click="hEdit(scope.row)">编辑</el-button>
                   <el-button size="small" type="danger" @click="hDel(scope.row.id)">删除</el-button>
                 </template>
@@ -74,15 +74,25 @@
           </el-col>
         </el-row>
       </el-dialog>
+      <!--      分配权限弹框-->
+      <el-dialog
+        title="分配权限"
+        :visible.sync="showDialogAssign"
+      >
+        <assign-permission-vue @close="hClose" />
+      </el-dialog>
     </div>
   </div>
 </template>
 <script>
 // 导入获取所有角色信息接口
 import { getRoles, delRole, addRole, updateRole } from '@/api/setting'
+import AssignPermissionVue from '@/views/settings/assignPermission'
 export default {
+  components: { AssignPermissionVue },
   data() {
     return {
+      showDialogAssign: false, // 分配权限弹框
       // 判断是否为编辑
       isEdit: false,
       roles: [], // 传入表单的数据
@@ -104,6 +114,13 @@ export default {
     this.loadRole()
   },
   methods: {
+    hClose() {
+      this.showDialogAssign = false
+    },
+    // 分配权限
+    hAssign() {
+      this.showDialogAssign = true
+    },
     add() {
       this.isEdit = false
       this.showDialog = true
