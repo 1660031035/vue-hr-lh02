@@ -21,7 +21,7 @@
               <el-table-column prop="description" label="描述" />
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <el-button size="small" type="success" @click="hAssign()">分配权限</el-button>
+                  <el-button size="small" type="success" @click="hAssign(scope.row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="hEdit(scope.row)">编辑</el-button>
                   <el-button size="small" type="danger" @click="hDel(scope.row.id)">删除</el-button>
                 </template>
@@ -76,10 +76,11 @@
       </el-dialog>
       <!--      分配权限弹框-->
       <el-dialog
+        v-if="showDialogAssign"
         title="分配权限"
         :visible.sync="showDialogAssign"
       >
-        <assign-permission-vue @close="hClose" />
+        <assign-permission-vue :roles-id="rolesId" @close="hClose" />
       </el-dialog>
     </div>
   </div>
@@ -92,6 +93,8 @@ export default {
   components: { AssignPermissionVue },
   data() {
     return {
+      // 角色id
+      rolesId: '',
       showDialogAssign: false, // 分配权限弹框
       // 判断是否为编辑
       isEdit: false,
@@ -118,8 +121,9 @@ export default {
       this.showDialogAssign = false
     },
     // 分配权限
-    hAssign() {
+    hAssign(id) {
       this.showDialogAssign = true
+      this.rolesId = id
     },
     add() {
       this.isEdit = false
@@ -128,7 +132,7 @@ export default {
     async doEdit() {
       await updateRole(this.roleForm)
       this.showDialog = false
-      this.loadRole()
+      await this.loadRole()
     },
     hEdit(data) {
       this.roleForm = { ...data }
@@ -144,7 +148,7 @@ export default {
       // 当添加角色时,自动跳转到角色所在那一页
       this.total++
       this.page = Math.ceil(this.total / this.pagesize)
-      this.loadRole()
+      await this.loadRole()
     },
     hSubmit() {
       // 添加角色
@@ -176,7 +180,7 @@ export default {
         }
       }
       // 刷新列表
-      this.loadRole()
+      await this.loadRole()
     },
     hDel(id) {
       // 添加询问框

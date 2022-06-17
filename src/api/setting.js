@@ -61,3 +61,14 @@ export function getAssignRoles(params) {
     params: params
   })
 }
+
+/**
+ * @description: 获取角色详情
+ * @param {*} id 角色id
+ * @return {*}
+ */
+export function getRoleDetail(id) {
+  return request({
+    url: `/api/sys/role/${id}`
+  })
+}
