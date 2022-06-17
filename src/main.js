@@ -14,7 +14,9 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-
+// 按钮级别权限
+import directive from './directive'
+Vue.use(directive)
 import Components from './components'
 Vue.use(Components)
 /**

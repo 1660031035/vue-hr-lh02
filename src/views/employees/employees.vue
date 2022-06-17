@@ -8,8 +8,8 @@
         </template>
         <!-- 插入到right插槽位置 -->
         <template #right>
-          <el-button type="warning" size="small" @click="$router.push('/import')">导入excel</el-button>
-          <el-button type="danger" size="small" @click="hExport()">导出excel</el-button>
+          <el-button v-allow="'import_excel'" type="warning" size="small" @click="$router.push('/import')">导入excel</el-button>
+          <el-button v-allow="'export_excel'" type="danger" size="small" @click="hExport()">导出excel</el-button>
           <el-button type="primary" size="small" @click="showDialog = true">新增员工</el-button>
         </template>
       </page-tools>
