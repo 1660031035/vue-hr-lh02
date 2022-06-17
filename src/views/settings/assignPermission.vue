@@ -16,14 +16,14 @@ node-key="id": 数据回填必须的属性
       node-key="id"
     />
     <el-button @click="hClose">取消</el-button>
-    <el-button type="primary">确定</el-button>
+    <el-button type="primary" @click="hSubmit">确定</el-button>
   </div>
 
 </template>
 
 <script>
-// 导入获取角色权限详情api
-import { getRoleDetail } from '@/api/setting'
+// 导入获取角色权限详情api和给角色分配权限的api
+import { getRoleDetail, assignPerm } from '@/api/setting'
 // 导入树形结构
 import { toTreeList } from '@/utils'
 // 导入权限点列表api
@@ -46,6 +46,19 @@ export default {
     this.loadRoleDetail()
   },
   methods: {
+    // 保存权限
+    async hSave() {
+      // 获取当前角色的permIds
+      const permIds = this.$refs.tree.getCheckedKeys()
+      await assignPerm({ id: this.rolesId, permIds })
+      // 关闭弹框
+      this.$emit('close')
+      // 成功提示
+      this.$message.success('修改成功')
+    },
+    hSubmit() {
+      this.hSave()
+    },
     // 角色权限详情
     async loadRoleDetail() {
       const res = await getRoleDetail(this.rolesId)
