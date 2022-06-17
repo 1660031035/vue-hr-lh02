@@ -9,7 +9,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="userInfo.staffPhoto" class="user-avatar">
+          <img :src="userInfo.staffPhoto" class="user-avatar" alt="">
           <span class="name">{{ userInfo.username }}</span>
           <i class="el-icon-caret-bottom" style="color:#fff" />
         </div>
@@ -65,7 +65,7 @@ export default {
         await this.$store.dispatch('user/logout') +
         // this.$route.path只有路径的信息
         // this.$route.fullPath：路径+查询参数的信息
-this.$router.push('/login?return_url=' + encodeURIComponent(this.$route.fullPath))
+        this.$router.push('/login?return_url=' + encodeURIComponent(this.$route.fullPath))
       }).catch(() => {
         // 用户取消退出
       })
@@ -140,7 +140,6 @@ this.$router.push('/login?return_url=' + encodeURIComponent(this.$route.fullPath
           cursor: pointer;
           width: 30px;
           height: 30px;
-          border-radius: 15px;
           vertical-align: middle;
           border-radius: 10px;
         }

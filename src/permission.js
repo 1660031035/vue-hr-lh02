@@ -2,6 +2,8 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import router from './router'
 import store from '@/store'
+// 引入所有的动态路由表
+import { asyncRoutes8 } from '@/router'
 // 引入工具方法
 import getPageTitle from '@/utils/get-page-title'
 // 白名单数组
@@ -24,6 +26,9 @@ router.beforeEach(async(to, from, next) => {
         // 如果没有就获取
         console.log('请求个人信息')
         await store.dispatch('user/getUserInfo')
+        router.addRoutes(asyncRoutes8)
+        console.log(asyncRoutes8, 'asyncRoutes8')
+        store.commit('menu/updateMenuList', asyncRoutes8)
       }
       next()
     }

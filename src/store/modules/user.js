@@ -1,6 +1,7 @@
 import { getToken, setToken } from '@/utils/auth'
 // 导入封装的函数
 import { login, getProfile, getUserInfo } from '@/api/user'
+import { resetRouter } from '@/router'
 // 代码优化: 在vuex中的action中发登录请求
 export default {
   namespaced: true,
@@ -40,6 +41,8 @@ export default {
     // 清空token和用户信息
       context.commit('setToken', '')
       context.commit('setUserInfo', {})
+      // 重置路由
+      resetRouter()
     }
   },
   getters: {}
