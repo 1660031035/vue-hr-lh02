@@ -27,8 +27,17 @@ router.beforeEach(async(to, from, next) => {
         console.log('请求个人信息')
         await store.dispatch('user/getUserInfo')
         router.addRoutes(asyncRoutes8)
-        console.log(asyncRoutes8, 'asyncRoutes8')
-        store.commit('menu/updateMenuList', asyncRoutes8)
+        const menus = await store.dispatch('user/getUserInfo')
+        console.log(menus, '当前用户能够访问的权限')
+        console.log(asyncRoutes8, '所有的动态路由权限')
+        // 筛选出用户的权限includes(menus)
+        const routesFilter = asyncRoutes8.filter(item => {
+          // console.log(item)
+          const name = item.children[0].name
+          // console.log(name, '筛选过后')
+          return menus.includes(name)
+        })
+        store.commit('menu/updateMenuList', routesFilter)
       }
       next()
     }

@@ -36,6 +36,7 @@ export default {
       const rsInfo = await getUserInfo(rs.data.userId)
       const obj = { ...rs.data, ...rsInfo.data }
       context.commit('setUserInfo', obj)
+      return rs.data.roles.menus
     },
     logout(context) {
     // 清空token和用户信息
