@@ -26,7 +26,7 @@ router.beforeEach(async(to, from, next) => {
         // 如果没有就获取
         console.log('请求个人信息')
         await store.dispatch('user/getUserInfo')
-        router.addRoutes(asyncRoutes8)
+
         const menus = await store.dispatch('user/getUserInfo')
         console.log(menus, '当前用户能够访问的权限')
         console.log(asyncRoutes8, '所有的动态路由权限')
@@ -37,9 +37,18 @@ router.beforeEach(async(to, from, next) => {
           // console.log(name, '筛选过后')
           return menus.includes(name)
         })
+        routesFilter.push(
+          { path: '*', redirect: '/404', hidden: true }
+        )
+        router.addRoutes(routesFilter)
         store.commit('menu/updateMenuList', routesFilter)
+        next({
+          ...to, // next({ ...to })的目的,是保证路由添加完了再进入页面 (可以理解为重进一次)
+          replace: true // 重进一次, 不保留重复历史
+        })
+      } else {
+        next()
       }
-      next()
     }
   } else {
     // 没有token，只能访问白名单
