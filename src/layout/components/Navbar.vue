@@ -2,11 +2,13 @@
   <div class="navbar">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <div class="app-breadcrumb">
-      江苏传智播客教育科技股份有限公司
+      {{ $t('navbar.companyName') }}
       <span class="breadBtn">体验版</span>
     </div>
 
     <div class="right-menu">
+      <screen-full />
+      <lang />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="userInfo.staffPhoto" class="user-avatar" alt="">
